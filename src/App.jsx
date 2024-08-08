@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-// import StartButton from './StartButton';
-// import LapButton from './LapButton';
-// import ResetButton from './ResetButton';
-// import StopButton from './StopButton';
-import Laps from './components/Laps';
-import StopWatchTimer from './components/StopWatchTimer';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Laps from "./components/Laps";
+import StopWatchTimer from "./components/StopWatchTimer";
+import StartButton from "./components/StartButton";
+import StopButton from "./components/StopButton";
+import ResetButton from "./components/ResetButton";
+import LapButton from "./components/LapButton";
 
 function App() {
   const [time, setTime] = useState(0);
@@ -16,7 +16,7 @@ function App() {
     let timer;
     if (running) {
       timer = setInterval(() => {
-        setTime(prevTime => prevTime + 10);
+        setTime((prevTime) => prevTime + 10);
       }, 10);
     } else if (!running) {
       clearInterval(timer);
@@ -24,32 +24,14 @@ function App() {
     return () => clearInterval(timer);
   }, [running]);
 
-  const startTimer = () => setRunning(true);
-
-  const stopTimer = () => setRunning(false);
-
-  const resetTimer = () => {
-    if (!running) {
-      setTime(0);
-      setLaps([]);
-    }
-  };
-
-  const lapTimer = () => {
-    if (running) {
-      setLaps([...laps, time]);
-    }
-  };
-
   return (
     <div className="App">
       <StopWatchTimer time={time} />
-      <div className="buttons">
-      <button onClick={startTimer}>Start</button>
-      <button onClick={stopTimer}>Stop</button>
-      <button onClick={lapTimer}>Lap</button>
-      <button onClick={resetTimer} disabled={running}>Reset</button>
-      </div>
+      <div className="buttons"></div>
+      <StartButton setRunning={setRunning}/>
+      <StopButton setRunning={setRunning}/>
+      <LapButton setLaps={setLaps} running={running}/>
+      <ResetButton setLaps={setLaps} setTime={setTime} running={running}/>
       <Laps laps={laps} />
     </div>
   );
